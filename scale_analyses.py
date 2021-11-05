@@ -117,7 +117,7 @@ def semiRegular12NoteScalesIn24EDO():
       num += 1
       print(num, "  :  ", sc.toNoteNames(a))
       done.append(a)
-      sc.writeScalaFile(a, "12_from_24__Dim__" + str(num), "A semi-regular tuning of 12 notes from 24EDO based on the tritone")
+      sc.writeScalaFile(a, "12_from_24__Tritone__" + str(num), "A semi-regular tuning of 12 notes from 24EDO based on the tritone")
 
   base = [0, 4, 8, 12, 16, 20]
   print()
@@ -136,7 +136,7 @@ def semiRegular12NoteScalesIn24EDO():
       num += 1
       print(num, "  :  ", sc.toNoteNames(a))
       done.append(a)
-      sc.writeScalaFile(a, "12_from_24__Dim__" + str(num), "A semi-regular tuning of 12 notes from 24EDO based on the whole tone scale")
+      sc.writeScalaFile(a, "12_from_24__WT__" + str(num), "A semi-regular tuning of 12 notes from 24EDO based on the whole tone scale")
 
 
   sc.EDO = 12
