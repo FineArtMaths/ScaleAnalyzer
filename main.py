@@ -1,6 +1,7 @@
 import scales as sc
 import carnatic as c
 import scale_analyses as sa
+import itertools
 #####################################################################
 # Temporary scratch code that uses the scales module.
 # Regularly changes. Probably nothing of value here.
@@ -9,7 +10,4 @@ import scale_analyses as sa
 # http://cochranemusic.com
 #####################################################################
 
-sc.init()
-c.init()
-
-sa.melakata_modal_groups()
+sa.semiRegular12NoteScalesIn24EDO()

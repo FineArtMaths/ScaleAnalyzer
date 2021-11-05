@@ -12,6 +12,9 @@ pc = list(range(0, EDO))
 names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 inames = ["s", "t", "mT", "MT", "Fo", "Tr", "Fi"]
 
+names24EDO = ["C", "Ct", "C#", "Dd", "D", "Dt", "D#", "Ed", "E", "Et", "F", "Ft", "F#", "Gd", "G", "Gt", "G#", "Ad", "A", "At", "A#", "Bd", "B", "Bt"]
+names12EDO = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+
 scales = {}
 
 def add(pc, interval):
@@ -31,9 +34,9 @@ def sortScale(scale):
 
 def getAllScalesBySize(size):
   ret = []
-  for i in range(2**12):
+  for i in range(2**EDO):
     b = "{0:b}".format(i)
-    if b.count("1") == 7:
+    if b.count("1") == size:
       ret.append(binaryToPCList(b))
   return ret
 
@@ -60,7 +63,7 @@ def equalByRotation(scale1, scale2):
 def equalByTransposition(scale1, scale2):
   if len(scale1) != len(scale2):
     return False
-  for i in range(12):
+  for i in range(EDO):
     x = [add(s, i) for s in scale1]
     if x == scale2:
       return True
@@ -194,6 +197,19 @@ def isModeInList(scale, scaleList):
     if equivalent(scale, s):
       return True
   return False
+
+def writeScalaFile(scale, name, desc="A tuning"):
+  f = open("scala/" + name + ".scl", "w")
+  f.write("!\n!\n")
+  f.write(desc + "\n")
+  f.write(" " + str(len(scale)) + "\n")
+  f.write("!\n")
+  curr = 0
+  incr = 1200 / EDO
+  for n in scale[1:]:
+    f.write(" " + str(incr * n) + "\n")
+  f.write(" 2/1\n")
+  f.close()
 
 #####################################################################
 # Scrape all scale details from the old guitar book TeX file.
