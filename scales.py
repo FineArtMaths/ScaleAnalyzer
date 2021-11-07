@@ -14,6 +14,7 @@ inames = ["s", "t", "mT", "MT", "Fo", "Tr", "Fi"]
 
 names24EDO = ["C", "Ct", "C#", "Dd", "D", "Dt", "D#", "Ed", "E", "Et", "F", "Ft", "F#", "Gd", "G", "Gt", "G#", "Ad", "A", "At", "A#", "Bd", "B", "Bt"]
 names12EDO = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+names18EDO = ["C", "C3t", "D3b", "D", "D3t", "E3b", "E", "E3t", "F3t", "F#", "G3b", "G3t", "G#", "A3b", "A3t", "A#", "B3b", "B3t"]
 
 scales = {}
 
@@ -198,8 +199,12 @@ def isModeInList(scale, scaleList):
       return True
   return False
 
-def writeScalaFile(scale, name, desc="A tuning"):
-  f = open("scala/" + name + ".scl", "w")
+def writeScalaFile(scale, name, desc="A tuning", folder=""):
+  fname = name + ".scl"
+  if folder != "":
+    fname = folder + "/" + fname
+  fname = "scala/" + fname
+  f = open(fname, "w")
   f.write("!\n!\n")
   f.write(desc + "\n")
   f.write(" " + str(len(scale)) + "\n")

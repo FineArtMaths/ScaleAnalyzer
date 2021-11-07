@@ -79,7 +79,7 @@ def semiRegular12NoteScalesIn24EDO():
       num += 1
       print(sc.toNoteNames(a))
       done.append(a)
-      sc.writeScalaFile(a, "12_from_24__Aug__" + str(num), "A semi-regular tuning of 12 notes from 24EDO based on the augmented triad")
+      sc.writeScalaFile(a, "12_from_24__Aug__" + str(num), "A semi-regular tuning of 12 notes from 24EDO based on the augmented triad", "12_from_24EDO")
 
   base = [0, 6, 12, 18]
   print()
@@ -98,7 +98,7 @@ def semiRegular12NoteScalesIn24EDO():
       num += 1
       print(num, "  :  ", sc.toNoteNames(a))
       done.append(a)
-      sc.writeScalaFile(a, "12_from_24__Dim__" + str(num), "A semi-regular tuning of 12 notes from 24EDO based on the diminished seventh chord")
+      sc.writeScalaFile(a, "12_from_24__Dim__" + str(num), "A semi-regular tuning of 12 notes from 24EDO based on the diminished seventh chord", "12_from_24EDO")
 
   base = [0, 12]
   print()
@@ -117,7 +117,7 @@ def semiRegular12NoteScalesIn24EDO():
       num += 1
       print(num, "  :  ", sc.toNoteNames(a))
       done.append(a)
-      sc.writeScalaFile(a, "12_from_24__Tritone__" + str(num), "A semi-regular tuning of 12 notes from 24EDO based on the tritone")
+      sc.writeScalaFile(a, "12_from_24__Tritone__" + str(num), "A semi-regular tuning of 12 notes from 24EDO based on the tritone", "12_from_24EDO")
 
   base = [0, 4, 8, 12, 16, 20]
   print()
@@ -136,8 +136,34 @@ def semiRegular12NoteScalesIn24EDO():
       num += 1
       print(num, "  :  ", sc.toNoteNames(a))
       done.append(a)
-      sc.writeScalaFile(a, "12_from_24__WT__" + str(num), "A semi-regular tuning of 12 notes from 24EDO based on the whole tone scale")
+      sc.writeScalaFile(a, "12_from_24__WT__" + str(num), "A semi-regular tuning of 12 notes from 24EDO based on the whole tone scale", "12_from_24EDO")
+  sc.EDO = 12
+  sc.names = sc.names12EDO
 
+def twelveFrom18EDO():
+  sc.EDO = 18
+  sc.names = sc.names18EDO
+  options = list(range(1, 18))
+  bases = {"Tritone": [0, 9], "Aug": [0, 6, 12], "WT":[0, 3, 6, 9, 12, 15] }
+  base_full_names = {"Tritone": "tritone", "Aug": "augmented triad", "WT":"whole tone scale" }
+  for b in bases.keys():
+    print(b)
+    done = []
+    num = 0
+    available_notes = list(range(1, bases[b][1]))
+    num_notes = 12 // len(bases[b]) - 1
+    for i in itertools.combinations(available_notes, num_notes):
+      a = []
+      for n in bases[b]:
+        a.append(n)
+        for d in i:
+          a.append(n + d)
+      if not sc.isModeInList(a, done):
+        num += 1
+        print(num, "  :  ", sc.toNoteNames(a))
+        done.append(a)      
+        sc.writeScalaFile(a, "12_from_18__" + b + "__" + str(num), "Semi-regular 12-note tuning derived from 18EDO based on the " + base_full_names[b], "12_from_18EDO")
+    print()
 
   sc.EDO = 12
   sc.names = sc.names12EDO
