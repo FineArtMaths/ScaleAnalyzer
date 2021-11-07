@@ -57,6 +57,18 @@ def nonMelakataHeptatonics():
         ct += 1
   print(ct)
 
+def melakata_complements():
+  done = [] 
+  num = 0
+  c.init()
+  for j, m in enumerate(c.melakatas):
+    s = sc.coscale(m)
+    s = sc.transpose(s, s[0] * -1)
+    if not sc.isModeInList(s, done):
+      done.append(s)
+      num+= 1
+  return done
+
 #########################################################
 # Functions that write lots of Scala files
 #########################################################
@@ -184,3 +196,25 @@ def melakata_tunings():
       prev = n
     name = c.mel_names[j]
     sc.writeScalaFile(s, "mel__" + name, "12-note with the notes from " + name + " melakata on the white keys and notes exactly between them on the black keys", "melakata_tunings")
+
+def melakata_complement_tunings():
+  print("12-note tunings where the black notes are the complement of a melakata and the white notes are exactly in between them. ")
+  for j, m in enumerate(melakata_complements()):
+    s = []
+    prev = -1
+    for i, n in enumerate(m):
+      if i in [1, 3, 4]:
+        s.append(prev + (n - prev)/2)
+      elif i == 2:
+        s.append(prev + (n - prev)/3)
+        s.append(prev + 2*(n - prev)/3)
+      s.append(n)
+      prev = n
+    s.append(prev + (12 - prev)/3)
+    s.append(prev + 2*(12 - prev)/3)
+    x = [s[-1]]
+    x.extend(s[:-1])
+    x = sc.transpose(x, x[0] * -1)
+    name = c.mel_names[j]
+    print(m, ":", x)
+    sc.writeScalaFile(s, "comp__" + name, "12-note with the notes from the 12-EDO complement of " + name + " melakata on the black keys and notes exactly between them on the white keys", "melakata_complement_tunings")

@@ -10,4 +10,4 @@ import itertools
 # http://cochranemusic.com
 #####################################################################
 
-sa.melakata_tunings()
+sa.melakata_complement_tunings()
