@@ -178,7 +178,7 @@ def melakata_tunings():
     s = []
     prev = -1
     for i, n in enumerate(m):
-      if i not in [0, 4]:
+      if i not in [0, 3]:
         s.append(prev + (n - prev)/2)
       s.append(n)
       prev = n
