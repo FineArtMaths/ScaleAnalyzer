@@ -213,6 +213,7 @@ def writeScalaFile(scale, name, desc="A tuning", folder=""):
   incr = 1200 / EDO
   for n in scale[1:]:
     f.write(" " + str(incr * n) + "\n")
+    #print("     ", n, incr * n)
   f.write(" 2/1\n")
   f.close()
 
