@@ -197,7 +197,6 @@ def melakata_tunings():
     name = c.mel_names[j]
     sc.writeScalaFile(s, "mel__" + name, "12-note with the notes from " + name + " melakata on the white keys and notes exactly between them on the black keys", "melakata_tunings")
 
-# TODO: Not producing correct results yet
 def melakata_complement_tunings():
   print("12-note tunings where the black notes are the complement of a melakata and the white notes are exactly in between them. ")
   for j, m in enumerate(melakata_complements()):
