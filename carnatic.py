@@ -20,10 +20,14 @@ danis = [
 melakatas = []
 modal_relations = []
 
+initialized = False
 def init():
-  build_melakatas()
-  build_modal_relations()
-  build_modal_groups()
+  global initialized
+  if not initialized:
+    build_melakatas()
+    build_modal_relations()
+    build_modal_groups()
+    initialized = True
 
 def build_melakatas():
   global melakatas

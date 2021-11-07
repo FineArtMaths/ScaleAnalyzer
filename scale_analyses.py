@@ -57,7 +57,10 @@ def nonMelakataHeptatonics():
         ct += 1
   print(ct)
 
-# NB This function creates a bunch of files
+#########################################################
+# Functions that write lots of Scala files
+#########################################################
+
 def semiRegular12NoteScalesIn24EDO():
   sc.EDO = 24
   sc.names = sc.names24EDO
@@ -167,3 +170,17 @@ def twelveFrom18EDO():
 
   sc.EDO = 12
   sc.names = sc.names12EDO
+
+def melakata_tunings():
+  print("12-note tunings where the white notes are a melakata and the black notes are exactly in between them. This produces mixtures of semitones, quarter-tones and three-quarter-tones")
+  c.init()
+  for j, m in enumerate(c.melakatas):
+    s = []
+    prev = -1
+    for i, n in enumerate(m):
+      if i not in [0, 4]:
+        s.append(prev + (n - prev)/2)
+      s.append(n)
+      prev = n
+    name = c.mel_names[j]
+    sc.writeScalaFile(s, "mel__" + name, "12-note with the notes from " + name + " melakata on the white keys and notes exactly between them on the black keys", "melakata_tunings")

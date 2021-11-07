@@ -10,4 +10,4 @@ import itertools
 # http://cochranemusic.com
 #####################################################################
 
-sa.semiRegular12NoteScalesIn24EDO()
+sa.melakata_tunings()
