@@ -58,16 +58,46 @@ def nonMelakataHeptatonics():
   print(ct)
 
 def melakata_complements():
+  result = {}
   done = [] 
-  num = 0
+  done_i = []
   c.init()
-  for j, m in enumerate(c.melakatas):
+  num = 0
+  for i, m in enumerate(c.melakatas):
     s = sc.coscale(m)
     s = sc.transpose(s, s[0] * -1)
     if not sc.isModeInList(s, done):
       done.append(s)
-      num+= 1
-  return done
+      done_i.append(i)
+      x = []
+      modes = sc.getModes(s)
+      for j, n in enumerate(c.melakatas):
+        for sm in modes:
+          if sc.isSubset(sm, n) and c.mel_names[j] not in x:
+            x.append(c.mel_names[j])
+            break
+      struct = {
+        "Name":  c.mel_names[i], 
+        "Modes": modes,
+        "ContainedIn": x,
+        "IsSubsetOfItsComplement": c.mel_names[i] in x,
+        "Synonyms": [] #[c.mel_names[i]],
+        }
+      result[c.mel_names[i]] = struct
+      num += 1
+    else:
+      for k in result.keys():
+        if sc.isModeInList(s, result[k]["Modes"]):
+          r = result[k]
+      r["Synonyms"].append(c.mel_names[i])
+  for k in result.keys():
+    result[k]["ContainedIn"] = sorted(result[k]["ContainedIn"])
+    result[k]["Synonyms"] = sorted(result[k]["Synonyms"])
+  for i in range(10):
+    print(i, "Synonyms")
+    for k in result.keys():
+      if len(result[k]["Synonyms"]) == i:
+        print("    ", result[k])  
 
 #########################################################
 # Functions that write lots of Scala files

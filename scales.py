@@ -200,6 +200,13 @@ def isModeInList(scale, scaleList):
       return True
   return False
 
+def findIdxOfModeInList(scale, scaleList):
+  for i, s in enumerate(scaleList):
+    if equivalent(scale, s):
+      return i
+  return -1
+
+
 def writeScalaFile(scale, name, desc="A tuning", folder=""):
   fname = name + ".scl"
   if folder != "":

@@ -10,4 +10,4 @@ import itertools
 # http://cochranemusic.com
 #####################################################################
 
-sa.decatonics_from_22EDO()
+sa.melakata_complements()
