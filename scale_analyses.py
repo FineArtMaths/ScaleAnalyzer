@@ -218,3 +218,22 @@ def melakata_complement_tunings():
     name = c.mel_names[j]
     print(name, m, ":", y)
     sc.writeScalaFile(y, "comp__" + name, "12-note with the notes from the 12-EDO complement of " + name + " melakata on the black keys and notes exactly between them on the white keys", "melakata_complement_tunings")
+
+# Derived from this article by Erlich: http://lumma.org/tuning/erlich/erlich-decatonic.pdf
+def decatonics_from_22EDO():
+  decas = {
+    "Standard Pentachordal Major": [0, 2, 4, 7, 9, 9, 11, 13, 16, 18, 20, 22],
+    "Static Symmetrical Major": [0, 2, 4, 7, 9, 9, 11, 13, 15, 18, 20, 22],
+    "Alternate Pentachordal Major": [0, 2, 5, 7, 9, 9, 11, 13, 15, 18, 20, 22],
+    "Dynamic Symmetrical Major": [0, 2, 5, 7, 9, 9, 11, 13, 16, 18, 20, 22],
+    "Standard Pentachordal Minor": [0, 2, 4, 6, 9, 9, 11, 13, 15, 17, 19, 22],
+    "Static Symmetrical Minor": [0, 2, 4, 6, 9, 9, 11, 13, 15, 17, 20, 22],
+    "Alternate Pentachordal Minor": [0, 2, 4, 6, 8, 8, 11, 13, 15, 17, 20, 22],
+    "Dynamic Symmetrical Minor": [0, 2, 4, 6, 8, 8, 11, 13, 15, 17, 19, 22]
+  }
+  sc.EDO = 22
+  sc.names = sc.names22EDO
+  for d in decas.keys():
+    sc.writeScalaFile(decas[d], "10_from_22__" + d, "10-note subset of 22-EDO described by Paul Erlich.", "10_from_22EDO")
+  sc.EDO = 12
+  sc.names = sc.names12EDO
