@@ -19,6 +19,9 @@ names24EDO = ["C", "Ct", "C#", "Dd", "D", "Dt", "D#", "Ed", "E", "Et", "F", "Ft"
 
 scales = {}
 
+def gen_note_names(edo):
+  return [str(i) for i in range(edo)]
+
 def add(pc, interval):
   return (pc + interval) % EDO
 
@@ -93,6 +96,14 @@ def toIMap(scale):
   ret = imap[1:]
   ret.append(imap[0])
   return ret
+
+def fromIMap(imap):
+  s = [0]
+  for i in imap:
+    n = add(s[-1], i)
+    s.append(n)
+  s = sorted(list(set(s)))
+  return s
 
 def toINames(scale):
   return [inames[s] for s in toIMap(scale)]
