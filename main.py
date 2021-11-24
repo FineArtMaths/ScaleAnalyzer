@@ -10,6 +10,7 @@ import fokker_modes as fm
 # (C) Rich Cochrane 2020. All rights reserved.
 # http://cochranemusic.com
 #####################################################################
+print("Hello, GitHub")
 
 fm.init()
 print(fm.get_mode_by_name("Spongework"))
