@@ -225,6 +225,10 @@ def replaceLaTeX(s):
   s = s.replace("sharp", "#")
   s = s.replace("natural", "n")
   s = s.replace("$", "")
+  s = s.replace("text", "")
+  s = s.replace("^", "")
+  s = s.replace("}", "")
+  s = s.replace("{", "")
   return s
 
 def writeScalaFile(scale, name, desc="A tuning", folder=""):
