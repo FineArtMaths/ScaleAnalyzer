@@ -4,6 +4,12 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
+#####################################################################
+# A basic GUI to make interacting with the main library  a bit easier.
+#
+# (C) Rich Cochrane 2020. All rights reserved.
+# http://cochranemusic.com
+#####################################################################
 
 # The "business logic" lives in a different module
 # (Separation of concerns!)

@@ -5,7 +5,7 @@ import fokker_modes as fm
 import gui
 
 #####################################################################
-# Temporary scratch code that uses the scales module.
+# Temporary scratch code.
 # Regularly changes. Probably nothing of value here.
 #
 # (C) Rich Cochrane 2020. All rights reserved.

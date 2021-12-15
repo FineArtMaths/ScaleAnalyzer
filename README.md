@@ -5,7 +5,7 @@ This project consists of:
 * a collection of Scala tuning files;
 * the "source code" of [my free scales ebook](https://archive.org/details/ScaleAndArpeggioResourcesAGuitarEncyclopedia), which is mostly used as a source of 12EDO scale names.
 
-You can find more information about some of this stuff, and get a sense of why I play around with it, on [my blog](https://cochranemusic.com/). You can listen to my music, which uses some of this stuff, [on Bandcamp](https://richcochrane.bandcamp.com/).
+You can find more information about some of this stuff, and get a sense of why I play around with it, on [my blog](https://cochranemusic.com/). You can listen to my music, which uses some of this, [on Bandcamp](https://richcochrane.bandcamp.com/).
 
 Needless to say (but here it comes anyway) this code is intended for my own use and is provided here without any warranty of any kind. If you intend to run this code please first make sure you fully understand it and fix the bugs that might otherwise cause problems.
 

@@ -1,7 +1,13 @@
 import scales as sc
 import carnatic as c
 import itertools
-
+#####################################################################
+# A place to save specific analytical bits of code.
+# Exch function is intended to be run as a standalone programme.
+#
+# (C) Rich Cochrane 2020. All rights reserved.
+# http://cochranemusic.com
+#####################################################################
 
 def melakata_modal_groups():
   print("Melakatas arranged into groups according to graha bhedam:")
