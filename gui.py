@@ -152,8 +152,8 @@ class ScaleAnalyzerApp(App):
 
   # If the scale changes, update the display and the piano keyboard
   def update_scale(self):
-    pcs = str(self.getPCList())
-    self.scale_display.text = pcs + "\n" + str(sc.toNoteNames(self.getPCList()))
+    pcs = str(self.getPCList())[1:-1]
+    self.scale_display.text = pcs + "\n" + str(sc.toNoteNames(self.getPCList()))[1:-1]
     self.syncKeyboardToScale()
 
   # When the user hits "Go", go to the business logic code and get some info, 
@@ -196,4 +196,7 @@ class ScaleAnalyzerApp(App):
   # Don't forget to update the display afterwards!
   def clear_all(self, instance):
     self.scale = []
+    self.modes_display_left.text = ""
+    self.modes_display_right.text = ""
+    self.scale_display.text = ""
     self.update_scale()
