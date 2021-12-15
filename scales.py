@@ -35,6 +35,23 @@ def merge(sc1, sc2):
   res.extend(sc2)
   return sortScale(res)
 
+# Gets a PC set from a string like "t, t, s, t, t, t, s"
+def set_PCs_from_imap_string(imap_txt):
+  imap_txt = imap_txt.replace(" ", "")
+  if "," not in imap_txt:
+    raise ValueError("imap_txt must be comma delimited")
+  imap_txt = imap_txt.split(",")
+  pcs = [0]
+  imap_names = ("s", "t", "mT", "MT", "Fo", "Tr", "Fi")
+  for i in imap_txt:
+    if i in imap_names:
+      pcs.append(pcs[-1] + imap_names.index(i) + 1)
+    else:
+      raise ValueError("imap_txt must contain only standard interval codes, comma separators and optional whitespace")
+  if pcs[-1] == 12:
+    pcs = pcs[:-1]
+    return pcs
+  raise ValueError("imap_txt did not contain intervals that added to 12. NOTE: This function only works in 12EDO")
 
 def sortScale(scale):
   return sorted(list(set(scale)))
@@ -162,8 +179,21 @@ def getScaleFromPCList(pclist):
     if 0 in cp:
       for c in scales.items():
         if cp == c[1]["Notes"]:
-          return {"Name": c[0], "Details": c[1], "Transpose": i}
+          m = getModeNumber(pclist, cp)
+          return {"Name": c[0], "Details": c[1], "Transpose": i, "Mode": m}
   return({"Name": "No matching scale for " + str(pclist) , "Details": None, "Transpose": 0} )
+
+# If scaleGroupRepresentative is mode 0, which mode is scale?
+# Returns -1 if there's no match
+def getModeNumber(scale, scaleGroupRepresentative):
+  curr_mode = 0
+  for i in range(0, 12):
+    cp = sortScale(transpose(scaleGroupRepresentative, -i))
+    if cp == scale:
+      return curr_mode
+    if 0 in cp:
+      curr_mode += 1
+  return -1
 
 def binaryToPCList(bin):
   pcs = []

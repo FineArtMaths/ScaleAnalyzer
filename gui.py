@@ -5,18 +5,22 @@ from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 
-# My "business logic"
+# The "business logic" lives in a different module
+# (Separation of concerns!)
 import scales as sc
 
 # Some colour constants that make it easy to tweak the coloru scheme later
+# Probably these should go into a dictionary or a class but they're OK here for now
 d = 0.1
 l = 0.3
 red = (l, d, d, 1)
 green = (d, l, d, 1)
 lgreen = (d*2, l*2, d*2, 1)
 blue = (d, d, l, 1)
+lblue = (d*2, d*2, l*2, 1)
 white = (1, 1, 1, 1)
 black = (0, 0, 0, 1)
+invisible = (0, 0, 0, 0)
 
 class ScaleAnalyzerApp(App):
   def build(self):
@@ -29,15 +33,25 @@ class ScaleAnalyzerApp(App):
 
       # Buttons make it easy to set background details; for some reason
       # they made this much mroe complicated for plain labels.
-      self.scale_display = Button(
+      self.scale_display_name = Button(
           font_size=25,
-          size_hint=(1, 0.6),   # Proportion of the default width & height to use
+          size_hint=(1, 0.3),   # Proportion of the default width & height to use
           border=(0,0,0,0),     # Remove the bevelled edges, it's not 2003
           background_normal="", # Can put an image in here, but this si needed for a flat colour
           background_color=blue,
           color=white
       )
-      main_layout.add_widget(self.scale_display)
+      main_layout.add_widget(self.scale_display_name)
+
+      self.scale_display_details = Button(
+          font_size=25,
+          size_hint=(1, 0.3),   # Proportion of the default width & height to use
+          border=(0,0,0,0),     # Remove the bevelled edges, it's not 2003
+          background_normal="", # Can put an image in here, but this si needed for a flat colour
+          background_color=blue,
+          color=white
+      )
+      main_layout.add_widget(self.scale_display_details)
 
       # Now for a box within the box
       h_layout = BoxLayout()    # Horizontal by default
@@ -64,9 +78,9 @@ class ScaleAnalyzerApp(App):
       # Use a loop to generate a bunch of buttons in a piano keyboard shape.
       # Probably not great that the two rows of buttons are completely separate
       # BoxLayouts, and not ideal that the whitespace is made out of buttons.
-      # But it works...
+      # But it works well enough for now.
       self.keyboard = [
-          ["", "b2", "", "b3", "", "", "b5", "", "b6", "", "b7", ""],
+          ["", "#1\nb2", "", "#2\nb3", "", "", "#4\nb5", "", "#5\nb6", "", "#6\nb7", ""],
           ["1", "",  "2", "",  "3", "4",  "", "5", "",  "6", "", "7"]
       ]
       self.keys = []
@@ -74,7 +88,7 @@ class ScaleAnalyzerApp(App):
           h_layout = BoxLayout(
             size_hint=(1, 0.5)
           )
-          for label in row:
+          for l, label in enumerate(row):
               if r == 0 and label != "":
                 bgc = (0, 0, 0, 1)  
                 fgc = (0.9, 0.9, 0.9, 1)
@@ -89,6 +103,9 @@ class ScaleAnalyzerApp(App):
                   background_color=bgc,
                   color=fgc
               )
+              if r == 0 and label == "":
+                button.text = self.keyboard[1][l]
+                button.color= invisible
               button.bind(on_press=self.toggle_scale_note)
               h_layout.add_widget(button)
               self.keys.append(button)
@@ -119,10 +136,10 @@ class ScaleAnalyzerApp(App):
       clear_button.bind(on_press=self.clear_all)
       h_layout.add_widget(clear_button)
 
-      search_text = TextInput(
+      self.search_text = TextInput(
         size_hint=(2, 1)
       )
-      h_layout.add_widget(search_text)
+      h_layout.add_widget(self.search_text)
 
       main_layout.add_widget(h_layout)
 
@@ -134,15 +151,16 @@ class ScaleAnalyzerApp(App):
   def toggle_scale_note(self, instance):
     button_text = instance.text
     if button_text != "":
+      if "\n" in button_text:
+        button_text = button_text.split("\n")[1]
       if button_text in self.scale:
         self.scale.remove(button_text)
-        instance.background_color = black if button_text[0] == "b" else white
       else:
         self.scale.append(button_text)
-        instance.background_color=green
     self.update_scale()
 
-  # This shouldn't really be in the GUI code; I'm leaving it here temporarily.
+  # A little utility function that translates between our scale's representation
+  # and the PC numbers the main code needs.
   def getPCList(self):
     scale_PCs = []
     for i in range(sc.EDO):
@@ -152,45 +170,75 @@ class ScaleAnalyzerApp(App):
 
   # If the scale changes, update the display and the piano keyboard
   def update_scale(self):
-    pcs = str(self.getPCList())[1:-1]
-    self.scale_display.text = pcs + "\n" + str(sc.toNoteNames(self.getPCList()))[1:-1]
+    pcs = str(self.getPCList())[1:-1].replace("'", "")
+    self.scale_display_name.text = pcs 
+    self.scale_display_details.text = str(sc.toNoteNames(self.getPCList()))[1:-1].replace("'", "")
     self.syncKeyboardToScale()
+
+  # If you type in the text box and hit Go, it works out what you meant and replaces the current scale
+  def set_scale_from_search(self):
+    imap_txt = self.search_text.text
+    try:
+      pcs = sc.set_PCs_from_imap_string(imap_txt)
+    except ValueError as e:
+      print("INPUT ERROR: ", e) # not the best error reporting but still
+      return
+    self.scale = []
+    for p in pcs:
+      self.scale.append(sc.flat_nums[p])
+    self.search_text.text = ""
+    self.syncKeyboardToScale()
+    self.get_details()
 
   # When the user hits "Go", go to the business logic code and get some info, 
   # then format it for display.  
-  def get_details(self, instance):
+  def get_details(self, instance=None):
+    if self.search_text.text != "":
+      self.set_scale_from_search()
+      self.search_text.text = ""
     d = sc.getScaleFromPCList(self.getPCList())
+    print(d)
     if d == None or d["Details"] == None:
-      self.scale_display.text = "Scale not found"
+      self.scale_display_name.text = "Scale not found"
+      self.scale_display_details.text = ""
       self.modes_display_left.text = ""
       self.modes_display_right.text = ""
       return
-    s = d["Name"] + "\n"
-    s += str(d["Details"]["Notes"])
-    self.scale_display.text = sc.replaceLaTeX(s)
+
+    self.scale_display_name.text = sc.replaceLaTeX(d["Name"]) + " Group"
+    s = str(d["Details"]["Notes"])
+    s = sc.replaceLaTeX(s)
+    self.scale_display_details.text = s
     s_left = ""
     s_right = ""
+    mode = int(d["Mode"])
     for i, m in enumerate(d["Details"]["ModeNames"]):
+      print(mode, i)
+      prefix = "* " if mode == i else "" 
       if i < len(d["Details"]["ModeNames"]) / 2:
-        s_left += sc.replaceLaTeX(m) + "\n"
+        s_left += prefix + sc.replaceLaTeX(m) + "\n"
       else:
-        s_right += sc.replaceLaTeX(m) + "\n"
+        s_right += prefix + sc.replaceLaTeX(m) + "\n"
     self.modes_display_left.text = s_left
     self.modes_display_right.text = s_right
 
-  # If the scale changes we need to update the green highlights
+  # If the scale changes we need to update the key highlights
   # on the piano keyboard.
   def syncKeyboardToScale(self):
-    for k in self.keys:
-      if k.text in self.scale:
-        if len(k.text) > 1:
+    for i, k in enumerate(self.keys):
+      txt = k.text
+      if "\n" in txt:
+        txt = txt.split("\n")[1]
+      if txt in self.scale:
+        if i < 12:
           k.background_color = green
         else:
           k.background_color = lgreen
+          self.keys[i - 12].background_color = lgreen
       elif len(k.text) > 1: 
         k.background_color = black
       else:
-         k.background_color = white
+        k.background_color = white
 
   # Reset the app by clearing out the scale.
   # Don't forget to update the display afterwards!
@@ -198,5 +246,6 @@ class ScaleAnalyzerApp(App):
     self.scale = []
     self.modes_display_left.text = ""
     self.modes_display_right.text = ""
-    self.scale_display.text = ""
+    self.scale_display_name.text = ""
+    self.scale_display_details.text = ""
     self.update_scale()
