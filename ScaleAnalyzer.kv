@@ -1,0 +1,43 @@
+<MainScreen>
+  BoxLayout:
+    id: 'main_layout'
+    orientation: 'vertical'
+    BoxLayout:
+      TextInput:
+        id: 'scale_display'
+        multiline: True
+        readonly: True
+        halign: 'right'
+        font_size: '25pt'
+    BoxLayout:
+      TextInput:
+        id: 'modes_display_left'
+        multiline: True
+        readonly: True
+        halign: 'right'
+        font_size: '15pt'
+      TextInput:
+        id: 'modes_display_right'
+        multiline: True
+        readonly: True
+        halign: 'left'
+        font_size: '15pt'
+    BoxLayout:
+      Button:
+        text: '1'
+        on_press: app.toggle_scale_note(self)
+      Button:
+        text: 'b2'
+        on_press: app.toggle_scale_note(self)
+      Button:
+        text: '2'
+        on_press: app.toggle_scale_note(self)
+    BoxLayout:
+      Button:
+        id: 'go_button'
+        text: 'Go'
+        on_press: app.get_details(self)
+      Button:
+        id: 'clear_button'
+        text: 'Clear'
+        on_press: app.clear_all(self)

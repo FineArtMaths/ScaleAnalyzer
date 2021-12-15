@@ -2,14 +2,16 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
+# import kivy.lang.builder import Builder
 
 import scales as sc
 
-class MainApp(App):
+class ScaleAnalyzerApp(App):
   def build(self):
       sc.init()
       # Properties
       self.scale = []
+      # Builder.load_file('ScaleAnalyzer.kv')
 
       # Choose a layout
       main_layout = BoxLayout(orientation="vertical")
@@ -29,12 +31,15 @@ class MainApp(App):
       )
       h_layout.add_widget(self.modes_display_right)
       main_layout.add_widget(h_layout)
+
       buttons = [
           ["", "b2", "", "b3", "", "", "b5", "", "b6", "", "b7", ""],
           ["1", "",  "2", "",  "3", "4",  "", "5", "",  "6", "", "7"]
       ]
       for row in buttons:
-          h_layout = BoxLayout()
+          h_layout = BoxLayout(
+            size_hint=(1, 0.5)
+          )
           for label in row:
               button = Button(
                   text=label,
@@ -44,7 +49,9 @@ class MainApp(App):
               h_layout.add_widget(button)
           main_layout.add_widget(h_layout)
 
-      h_layout = BoxLayout()
+      h_layout = BoxLayout(
+        size_hint=(0.5, 0.5)
+      )
       go_button = Button(
           text="Go", pos_hint={"center_x": 0.5, "center_y": 0.5}
       )

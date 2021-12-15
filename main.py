@@ -12,5 +12,5 @@ import gui
 # http://cochranemusic.com
 #####################################################################
 
-app = gui.MainApp()
+app = gui.ScaleAnalyzerApp()
 app.run()
