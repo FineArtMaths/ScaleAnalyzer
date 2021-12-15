@@ -4,10 +4,11 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
-# import kivy.lang.builder import Builder
 
+# My "business logic"
 import scales as sc
 
+# Some colour constants that make it easy to tweak the coloru scheme later
 d = 0.1
 l = 0.3
 red = (l, d, d, 1)
@@ -19,25 +20,27 @@ black = (0, 0, 0, 1)
 
 class ScaleAnalyzerApp(App):
   def build(self):
-      Window.size = (400, 400)
       sc.init()
-      # Properties
       self.scale = []
-      # Builder.load_file('ScaleAnalyzer.kv')
 
-      # Choose a layout
+      Window.size = (400, 400)
+      # The main layout will stack all our widgets vertically
       main_layout = BoxLayout(orientation="vertical")
 
+      # Buttons make it easy to set background details; for some reason
+      # they made this much mroe complicated for plain labels.
       self.scale_display = Button(
           font_size=25,
-          size_hint=(1, 0.6),
-          border=(0,0,0,0),
-          background_normal="",
+          size_hint=(1, 0.6),   # Proportion of the default width & height to use
+          border=(0,0,0,0),     # Remove the bevelled edges, it's not 2003
+          background_normal="", # Can put an image in here, but this si needed for a flat colour
           background_color=blue,
           color=white
       )
       main_layout.add_widget(self.scale_display)
-      h_layout = BoxLayout()
+
+      # Now for a box within the box
+      h_layout = BoxLayout()    # Horizontal by default
       self.modes_display_left = Button(
           font_size=15,
           size_hint=(1, 1),
@@ -58,6 +61,10 @@ class ScaleAnalyzerApp(App):
       h_layout.add_widget(self.modes_display_right)
       main_layout.add_widget(h_layout)
 
+      # Use a loop to generate a bunch of buttons in a piano keyboard shape.
+      # Probably not great that the two rows of buttons are completely separate
+      # BoxLayouts, and not ideal that the whitespace is made out of buttons.
+      # But it works...
       self.keyboard = [
           ["", "b2", "", "b3", "", "", "b5", "", "b6", "", "b7", ""],
           ["1", "",  "2", "",  "3", "4",  "", "5", "",  "6", "", "7"]
@@ -87,6 +94,8 @@ class ScaleAnalyzerApp(App):
               self.keys.append(button)
           main_layout.add_widget(h_layout)
 
+      # The two buttons and the TextEdit at the bottom.
+      # NB the TextEdit doesn't do anything at the moment.
       h_layout = BoxLayout(
         size_hint=(1, 0.3)
       )
@@ -119,6 +128,9 @@ class ScaleAnalyzerApp(App):
 
       return main_layout
 
+  # When the user clicks a piano key, turn the note on if it's off or off if it's on.
+  # We're using the button text to do all the work here; it would be nicer
+  # to subclass Button and make a button that can carry some custom information.
   def toggle_scale_note(self, instance):
     button_text = instance.text
     if button_text != "":
@@ -130,6 +142,7 @@ class ScaleAnalyzerApp(App):
         instance.background_color=green
     self.update_scale()
 
+  # This shouldn't really be in the GUI code; I'm leaving it here temporarily.
   def getPCList(self):
     scale_PCs = []
     for i in range(sc.EDO):
@@ -137,11 +150,14 @@ class ScaleAnalyzerApp(App):
         scale_PCs.append(i)
     return scale_PCs
 
+  # If the scale changes, update the display and the piano keyboard
   def update_scale(self):
     pcs = str(self.getPCList())
     self.scale_display.text = pcs + "\n" + str(sc.toNoteNames(self.getPCList()))
     self.syncKeyboardToScale()
-  
+
+  # When the user hits "Go", go to the business logic code and get some info, 
+  # then format it for display.  
   def get_details(self, instance):
     d = sc.getScaleFromPCList(self.getPCList())
     if d == None or d["Details"] == None:
@@ -162,10 +178,8 @@ class ScaleAnalyzerApp(App):
     self.modes_display_left.text = s_left
     self.modes_display_right.text = s_right
 
-  def loadScaleFromPCList(self, pcl=""):
-    if pcl == "":
-      pcl = self.search_text.text
-
+  # If the scale changes we need to update the green highlights
+  # on the piano keyboard.
   def syncKeyboardToScale(self):
     for k in self.keys:
       if k.text in self.scale:
@@ -178,7 +192,8 @@ class ScaleAnalyzerApp(App):
       else:
          k.background_color = white
 
-
+  # Reset the app by clearing out the scale.
+  # Don't forget to update the display afterwards!
   def clear_all(self, instance):
     self.scale = []
     self.update_scale()
