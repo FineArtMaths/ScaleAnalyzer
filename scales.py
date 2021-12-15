@@ -219,6 +219,13 @@ def findIdxOfModeInList(scale, scaleList):
       return i
   return -1
 
+def replaceLaTeX(s):
+  # return s
+  s = s.replace("flat", "b")
+  s = s.replace("sharp", "#")
+  s = s.replace("natural", "n")
+  s = s.replace("$", "")
+  return s
 
 def writeScalaFile(scale, name, desc="A tuning", folder=""):
   fname = name + ".scl"
