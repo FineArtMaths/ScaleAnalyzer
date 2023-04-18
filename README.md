@@ -3,7 +3,7 @@
 This project consists of:
 * some Python code that's useful for working with scales and "microtonal" tunings;
 * a collection of Scala tuning files;
-* the LaTeX "source code" of [my free scales ebook](https://archive.org/details/ScaleAndArpeggioResourcesAGuitarEncyclopedia), which is mostly used as a source of 12EDO scale names. This was the input to a preprocessing progamme written in Java that I may add to this project at some point.
+* the LaTeX "source code" of [my free scales ebook](https://archive.org/details/ScaleAndArpeggioResourcesAGuitarEncyclopedia), which is mostly used as a source of 12EDO scale names. This was the input to a preprocessing progamme written in Java that I've archived in the Pictogram folder but probably isn't usable in this state.
 
 There's also a disgusting tkinter GUI:
 
