@@ -6,6 +6,7 @@ This project consists of:
 * the LaTeX "source code" of [my free scales ebook](https://archive.org/details/ScaleAndArpeggioResourcesAGuitarEncyclopedia), which is mostly used as a source of 12EDO scale names. This was the input to a preprocessing progamme written in Java that I may add to this project at some point.
 
 There's also a disgusting tkinter GUI:
+
 ![scale_analyser](https://user-images.githubusercontent.com/5106495/232733532-ecc45a2a-55d4-485f-b3d0-5b944bcd7801.png)
 
 You can find more information about some of this stuff, and get a sense of why I play around with it, on [my blog](https://cochranemusic.com/). You can listen to my music, which uses some of this, [on Bandcamp](https://richcochrane.bandcamp.com/).
