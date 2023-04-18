@@ -1,0 +1,14 @@
+GUI basic requirements:
+
+	1. Define NoteEventSets and store them in registers
+	2. Apply transforms to NESs
+	3. Pass NESs into processors & store the results or pass them into other processors
+	4. Save workspace in our format and read back in later
+	5. Render as MIDI etc
+	
+GUI Ideas:
+	Piano keyboard for pitch class entry
+	Show PCs on a staff; will need 12 little graphics with the lines and a dot (+ accidental)
+		Allow user to change the staff
+	
+	
