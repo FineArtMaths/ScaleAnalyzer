@@ -9,7 +9,7 @@ There's also a disgusting tkinter GUI:
 
 ![scale_analyser](https://user-images.githubusercontent.com/5106495/232733532-ecc45a2a-55d4-485f-b3d0-5b944bcd7801.png)
 
-You can find more information about some of this stuff, and get a sense of why I play around with it, on [my blog](https://cochranemusic.com/). You can listen to my music, which uses some of this, [on Bandcamp](https://richcochrane.bandcamp.com/).
+You can find more information about some of this stuff, and get a sense of why I play around with it, on [my blog](https://cochranemusic.com/). You can listen to my music, which uses some of this, [on Bandcamp](https://richcochrane.bandcamp.com/) or [YouTube](https://www.youtube.com/@RichCochrane).
 
 Needless to say (but here it comes anyway) this code is intended for my own use and is provided here without any warranty of any kind. If you intend to run this code please first make sure you fully understand it and fix the bugs that might otherwise cause problems.
 
