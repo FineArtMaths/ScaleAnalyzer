@@ -11,11 +11,9 @@ from kivy.core.window import Window
 # http://cochranemusic.com
 #####################################################################
 
-# The "business logic" lives in a different module
-# (Separation of concerns!)
 import scales as sc
 
-# Some colour constants that make it easy to tweak the coloru scheme later
+# Some colour constants that make it easy to tweak the colour scheme later
 # Probably these should go into a dictionary or a class but they're OK here for now
 d = 0.1
 l = 0.3
@@ -38,12 +36,12 @@ class ScaleAnalyzerApp(App):
       main_layout = BoxLayout(orientation="vertical")
 
       # Buttons make it easy to set background details; for some reason
-      # they made this much mroe complicated for plain labels.
+      # they made this much more complicated for plain labels.
       self.scale_display_name = Button(
           font_size=25,
           size_hint=(1, 0.3),   # Proportion of the default width & height to use
           border=(0,0,0,0),     # Remove the bevelled edges, it's not 2003
-          background_normal="", # Can put an image in here, but this si needed for a flat colour
+          background_normal="", # Can put an image in here, but this is needed for a flat colour
           background_color=blue,
           color=white
       )
@@ -118,7 +116,6 @@ class ScaleAnalyzerApp(App):
           main_layout.add_widget(h_layout)
 
       # The two buttons and the TextEdit at the bottom.
-      # NB the TextEdit doesn't do anything at the moment.
       h_layout = BoxLayout(
         size_hint=(1, 0.3)
       )
@@ -255,3 +252,7 @@ class ScaleAnalyzerApp(App):
     self.scale_display_name.text = ""
     self.scale_display_details.text = ""
     self.update_scale()
+
+def start_app():
+  app = ScaleAnalyzerApp()
+  app.run()
